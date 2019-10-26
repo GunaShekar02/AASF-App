@@ -1,0 +1,6 @@
+export const ADD_STATS = 'ADD_STATS';
+export const STATS_FAILED = 'STATS_FAILED';
+export const ADD_EVENTS = 'ADD_EVENTS';
+export const EVENTS_FAILED = 'EVENTS_FAILED';
+export const LEADERBOARD_FAILED = 'LEADERBOARD_FAILED';
+export const ADD_LEADERBOARD = 'ADD_LEADERBOARD';
