@@ -5,6 +5,7 @@ import React, {Component} from 'react';
 import {View, StyleSheet, ToastAndroid} from 'react-native';
 import SecureStorage from 'react-native-secure-storage';
 import {RNCamera} from 'react-native-camera';
+import {Keccak} from 'sha3';
 
 const markAttendance = roll => {
   const params = {sdata: roll + 'o1'};
@@ -64,13 +65,15 @@ class Attendance extends Component {
   }
 
   handleBarCodeScanned = ({data}) => {
-    console.log(data);
-    if (
-      data ===
-      new Date(new Date().getTime() - new Date().getTimezoneOffset() * 60000)
-        .toISOString()
-        .split('T')[0]
-    ) {
+    const hash = new Keccak(256);
+    let curDate = new Date(
+      new Date().getTime() - new Date().getTimezoneOffset() * 60000,
+    )
+      .toISOString()
+      .split('T')[0];
+    curDate += SECRET;
+    hash.update(curDate);
+    if (data === hash.digest('hex')) {
       this.setState({scanned: true, maskColor: 'rgba(1,1,1,0.9)'});
       markAttendance(this.state.roll);
     } else {
